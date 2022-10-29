@@ -1,19 +1,29 @@
-import create from 'zustand';
-import { Movie } from './interfaces/Movie';
+import create from "zustand"
+import { Movie, MovieStatus } from "./interfaces/Movie"
 
 const movies: Movie[] = []
 for (let index = 0; index < 10; index++) {
-  movies.push({id:index,name:`Movie${index}`})
-
+	movies.push({ id: index, name: `Movie${index}`, status: MovieStatus.None })
 }
 
 interface MovieState {
-  movies: Movie[]
+	movies: Movie[]
+	updateMovieStatus: (movie: Movie) => void
 }
 
-
 const useMovieStore = create<MovieState>((set) => ({
-  movies: movies
+	movies: movies,
+	updateMovieStatus: (movie: Movie) => {
+		const m = movies.find((m) => m.id === movie.id)
+		if (m) {
+			m.status = movie.status
+			set((state) => {
+				state.movies = movies
+				return state
+			})
+		}
+		return movie
+	},
 }))
 
-export default useMovieStore;
+export default useMovieStore
