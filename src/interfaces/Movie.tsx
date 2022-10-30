@@ -5,9 +5,9 @@ export interface Movie {
 }
 
 export enum MovieStatus {
-	None,
-	WatchLater,
-	Liked,
-	Recommended,
-	Timepass,
+	DidntWatch = "Didn't watch",
+	WatchLater = "Watch later",
+	Liked = "Liked",
+	Recommendation = "Recommendation",
+	Timepass = "Time pass",
 }

@@ -1,10 +1,5 @@
-import { Movie } from "../interfaces/Movie"
-import CancelButton from "./CancelButton"
-import LikedButton from "./LikedButton"
-import RecommendedButton from "./RecommendedButton"
-import ShareButton from "./ShareButton"
-import TimePassButton from "./TimePassButton"
-import WatchLaterButton from "./WatchLaterButton"
+import { Movie, MovieStatus } from "../interfaces/Movie"
+import StatusButton from "./StatusButton"
 
 interface ButtonBarProps {
 	movie: Movie
@@ -13,15 +8,15 @@ interface ButtonBarProps {
 const ButtonBar = (props: ButtonBarProps) => {
 	const movie = props.movie
 
-	return (
-		<div className='flex flex-row'>
-			<WatchLaterButton movie={movie} />
-			<TimePassButton movie={movie} />
-			<LikedButton movie={movie} />
-			<RecommendedButton movie={movie} />
-			<CancelButton movie={movie} />
-			<ShareButton movie={movie} />
+	return movie.status === MovieStatus.DidntWatch ? (
+		<div className='flex justify-between grow'>
+			<StatusButton movie={movie} status={MovieStatus.WatchLater} />
+			<StatusButton movie={movie} status={MovieStatus.Timepass} />
+			<StatusButton movie={movie} status={MovieStatus.Liked} />
+			<StatusButton movie={movie} status={MovieStatus.Recommendation} />
 		</div>
+	) : (
+		<StatusButton movie={movie} status={MovieStatus.DidntWatch} />
 	)
 }
 
