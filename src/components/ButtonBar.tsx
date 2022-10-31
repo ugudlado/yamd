@@ -3,6 +3,7 @@ import StatusButton from "./StatusButton"
 
 interface ButtonBarProps {
 	movie: Movie
+	toggleHover: () => void
 }
 
 const ButtonBar = (props: ButtonBarProps) => {
@@ -10,13 +11,25 @@ const ButtonBar = (props: ButtonBarProps) => {
 
 	return movie.status === MovieStatus.DidntWatch ? (
 		<div className='flex justify-between grow'>
-			<StatusButton movie={movie} status={MovieStatus.WatchLater} />
-			<StatusButton movie={movie} status={MovieStatus.Timepass} />
-			<StatusButton movie={movie} status={MovieStatus.Liked} />
-			<StatusButton movie={movie} status={MovieStatus.Recommendation} />
+			{[
+				MovieStatus.WatchLater,
+				MovieStatus.Timepass,
+				MovieStatus.Liked,
+				MovieStatus.Recommendation,
+			].map((ms) => (
+				<StatusButton
+					movie={movie}
+					status={ms}
+					toggleHover={props.toggleHover}
+				/>
+			))}
 		</div>
 	) : (
-		<StatusButton movie={movie} status={MovieStatus.DidntWatch} />
+		<StatusButton
+			movie={movie}
+			status={MovieStatus.DidntWatch}
+			toggleHover={props.toggleHover}
+		/>
 	)
 }
 

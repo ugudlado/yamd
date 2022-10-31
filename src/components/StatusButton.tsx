@@ -12,6 +12,7 @@ import useMovieStore from "../store"
 interface StatusButtonProps {
 	movie: Movie
 	status: MovieStatus
+	toggleHover: () => void
 }
 
 const StatusButton = (props: StatusButtonProps) => {
@@ -20,6 +21,7 @@ const StatusButton = (props: StatusButtonProps) => {
 	const onClickStatusButton = () => {
 		movie.status = props.status
 		updateStatus(movie)
+		props.toggleHover()
 	}
 
 	const icon = (status: MovieStatus) => {
@@ -39,7 +41,7 @@ const StatusButton = (props: StatusButtonProps) => {
 
 	return (
 		<button title={props.status} onClick={onClickStatusButton}>
-			<FontAwesomeIcon icon={icon(props.status)} />
+			<FontAwesomeIcon icon={icon(props.status)} className='hover:text-3xl' />
 		</button>
 	)
 }
