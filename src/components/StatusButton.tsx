@@ -6,7 +6,6 @@ import {
 } from "@fortawesome/free-regular-svg-icons"
 import { faThumbTack } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { useState } from "react"
 import { Movie, MovieStatus } from "../interfaces/Movie"
 import useMovieStore from "../store"
 
@@ -18,7 +17,7 @@ interface StatusButtonProps {
 }
 
 const StatusButton = (props: StatusButtonProps) => {
-	const [movie, setMovie] = useState(props.movie)
+	const movie = props.movie
 	const updateStatus = useMovieStore((state) => state.updateMovieStatus)
 	const onClickStatusButton = (event: React.MouseEvent<HTMLButtonElement>) => {
 		event.stopPropagation()
