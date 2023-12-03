@@ -25,7 +25,7 @@ const MovieCard = (props: MovieCardProps) => {
 			onMouseEnter={toggleHover}
 			onMouseLeave={toggleHover}
 			key={movie.id}
-			className='w-64 h-80 text-3xl flex flex-col rounded-lg justify-between m-2 text-center bg-zinc-50 border-2 transition ease-in-out duration-300 hover:shadow-2xl hover:border-black'>
+			className='w-64 h-80 text-3xl flex flex-col rounded-lg justify-between m-2  bg-zinc-50 border-2 transition ease-in-out duration-300 hover:shadow-2xl hover:border-black'>
 			<div className='font-sans text-5xl font-extralight'>{movie.name}</div>
 			<div className='flex flex-row justify-between gap-5'>
 				<ShareButton movie={movie} />

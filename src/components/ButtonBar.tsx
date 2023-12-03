@@ -3,14 +3,15 @@ import StatusButton from "./StatusButton"
 
 interface ButtonBarProps {
 	movie: Movie
-	toggleHover: () => void
+	toggleHover?: () => void
+	updateMovie?: (movie: Movie) => void
 }
 
 const ButtonBar = (props: ButtonBarProps) => {
 	const movie = props.movie
 
 	return movie.status === MovieStatus.DidntWatch ? (
-		<div className='flex justify-between grow'>
+		<div className='flex justify-between grow w-1/5'>
 			{[
 				MovieStatus.WatchLater,
 				MovieStatus.Timepass,
@@ -18,9 +19,11 @@ const ButtonBar = (props: ButtonBarProps) => {
 				MovieStatus.Recommendation,
 			].map((ms) => (
 				<StatusButton
+					key={`${movie.id}-${ms}`}
 					movie={movie}
 					status={ms}
 					toggleHover={props.toggleHover}
+					updateMovie={props.updateMovie}
 				/>
 			))}
 		</div>
@@ -29,6 +32,7 @@ const ButtonBar = (props: ButtonBarProps) => {
 			movie={movie}
 			status={MovieStatus.DidntWatch}
 			toggleHover={props.toggleHover}
+			updateMovie={props.updateMovie}
 		/>
 	)
 }

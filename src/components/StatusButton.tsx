@@ -6,22 +6,26 @@ import {
 } from "@fortawesome/free-regular-svg-icons"
 import { faThumbTack } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { useState } from "react"
 import { Movie, MovieStatus } from "../interfaces/Movie"
 import useMovieStore from "../store"
 
 interface StatusButtonProps {
 	movie: Movie
 	status: MovieStatus
-	toggleHover: () => void
+	toggleHover?: () => void
+	updateMovie?: (movie: Movie) => void
 }
 
 const StatusButton = (props: StatusButtonProps) => {
-	const movie = props.movie
+	const [movie, setMovie] = useState(props.movie)
 	const updateStatus = useMovieStore((state) => state.updateMovieStatus)
-	const onClickStatusButton = () => {
+	const onClickStatusButton = (event: React.MouseEvent<HTMLButtonElement>) => {
+		event.stopPropagation()
 		movie.status = props.status
 		updateStatus(movie)
-		props.toggleHover()
+		if (props.updateMovie) props.updateMovie(movie)
+		if (props.toggleHover) props.toggleHover()
 	}
 
 	const icon = (status: MovieStatus) => {
