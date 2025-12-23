@@ -1,61 +1,38 @@
 {
   "name": "yamd",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.2.0",
-    "@fortawesome/fontawesome-svg-core": "^6.2.0",
-    "@fortawesome/free-regular-svg-icons": "^6.2.0",
-    "@fortawesome/free-solid-svg-icons": "^6.2.0",
-    "@fortawesome/react-fontawesome": "^0.2.0",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
-    "@types/node": "^16.18.0",
-    "@types/react": "^18.0.21",
-    "@types/react-dom": "^18.0.6",
-    "@types/react-fontawesome": "^1.6.5",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "^5.0.1",
-    "reactjs-popup": "^2.0.5",
-    "typescript": "^4.8.4",
-    "web-vitals": "^2.1.4",
-    "zustand": "^4.1.3"
-  },
+  "description": "Yet Another Movie Discovery - Indian Movie Discovery Engine",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
-    "eject": "craco eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "dev": "concurrently \"npm run dev:api\" \"npm run dev:web\"",
+    "dev:web": "npm run dev -w packages/web",
+    "dev:api": "npm run dev -w packages/api",
+    "dev:mobile": "npm run start -w packages/mobile",
+    "build": "npm run build -w packages/shared && npm run build -w packages/api && npm run build -w packages/web",
+    "build:web": "npm run build -w packages/web",
+    "build:api": "npm run build -w packages/api",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:studio": "prisma studio",
+    "mcp:dev": "tsx mcp/server.ts",
+    "mcp:build": "esbuild mcp/server.ts --bundle --platform=node --outfile=dist/mcp-server.js",
+    "lint": "npm run lint --workspaces --if-present",
+    "type-check": "npm run type-check --workspaces --if-present",
+    "clean": "rm -rf node_modules packages/*/node_modules packages/*/dist"
   },
   "devDependencies": {
-    "@craco/craco": "^7.1.0",
-    "@craco/types": "^7.1.0",
-    "autoprefixer": "^10.4.12",
-    "path": "^0.12.7",
-    "postcss": "^8.4.18",
-    "stylelint-config-standard": "^34.0.0",
-    "stylelint-webpack-plugin": "^4.1.1",
-    "tailwindcss": "^3.2.1"
+    "@types/node": "^20.10.4",
+    "concurrently": "^8.2.2",
+    "esbuild": "^0.19.9",
+    "prisma": "^5.7.0",
+    "tsx": "^4.6.2",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
