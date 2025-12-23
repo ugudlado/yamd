@@ -1,0 +1,141 @@
+// Prisma schema for Indian Movie Discovery Engine
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Movie {
+  id            String   @id @default(cuid())
+  title         String
+  titleHindi    String?
+  titleRegional String?
+  year          Int
+  runtime       Int?
+  language      String   // Hindi, Tamil, Telugu, etc.
+  industry      String   // Bollywood, Tollywood, Kollywood, etc.
+  plot          String?
+  posterUrl     String?
+  trailerUrl    String?
+  avgRating     Float    @default(0)
+  voteCount     Int      @default(0)
+
+  cast           MoviePerson[]
+  watchlistItems WatchlistItem[]
+  contributions  Contribution[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([year])
+  @@index([language])
+  @@index([industry])
+  @@index([avgRating])
+}
+
+model Person {
+  id        String    @id @default(cuid())
+  name      String
+  nameHindi String?
+  photoUrl  String?
+  birthDate DateTime?
+  bio       String?
+
+  movies MoviePerson[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name])
+}
+
+model MoviePerson {
+  id            String  @id @default(cuid())
+  movieId       String
+  personId      String
+  role          String  // lead_actor, supporting_actor, director, music_director, etc.
+  characterName String?
+
+  movie  Movie  @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  person Person @relation(fields: [personId], references: [id], onDelete: Cascade)
+
+  @@unique([movieId, personId, role])
+  @@index([movieId])
+  @@index([personId])
+  @@index([role])
+}
+
+model User {
+  id                String   @id @default(cuid())
+  email             String   @unique
+  passwordHash      String?
+  name              String
+  avatarUrl         String?
+  isPatron          Boolean  @default(false)
+  patronTier        String?  // supporter, champion, legend
+  stripeCustomerId  String?
+  contributionCount Int      @default(0)
+
+  watchlist     WatchlistItem[]
+  contributions Contribution[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model WatchlistItem {
+  id      String @id @default(cuid())
+  userId  String
+  movieId String
+  status  String // want_to_watch, watching, watched, liked, recommended, dropped
+  rating  Int?
+  notes   String?
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, movieId])
+  @@index([userId])
+  @@index([movieId])
+  @@index([status])
+}
+
+model Contribution {
+  id           String  @id @default(cuid())
+  userId       String
+  movieId      String?
+  entityType   String  // movie, person
+  entityId     String
+  fieldChanged String
+  oldValue     String?
+  newValue     String
+  status       String  @default("pending") // pending, approved, rejected
+
+  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movie Movie? @relation(fields: [movieId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([status])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  userId       String
+  token        String   @unique
+  expiresAt    DateTime
+
+  createdAt    DateTime @default(now())
+
+  @@index([token])
+  @@index([userId])
+}
