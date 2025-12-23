@@ -7,7 +7,9 @@
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "test": "vitest",
+    "test:run": "vitest run"
   },
   "dependencies": {
     "@prisma/client": "^5.7.0",
@@ -19,7 +21,7 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
     "stripe": "^14.10.0",
-    "superjson": "^3.0.0",
+    "superjson": "^2.2.1",
     "zod": "^3.22.4"
   },
   "devDependencies": {
@@ -28,6 +30,7 @@
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.5",
     "tsx": "^4.6.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "vitest": "^1.1.0"
   }
 }

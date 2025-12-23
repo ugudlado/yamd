@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Share, Alert } from 'react-native'
 import { useLocalSearchParams } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
 
@@ -30,6 +30,32 @@ export default function MovieScreen() {
     const h = Math.floor(mins / 60)
     const m = mins % 60
     return `${h}h ${m}m`
+  }
+
+  const handleShare = async () => {
+    try {
+      const result = await Share.share({
+        title: movie.title,
+        message: `Check out ${movie.title} (${movie.year}) - ${movie.industry}\n\n${movie.plot}\n\nRating: ${movie.rating}/10\n\nDiscover more Indian movies on YAMD!`,
+        url: `https://yamd.app/movie/${id}`,
+      })
+
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // Shared with activity type
+          console.log('Shared via:', result.activityType)
+        } else {
+          // Shared
+          console.log('Shared successfully')
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // Dismissed
+        console.log('Share dismissed')
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Failed to share. Please try again.')
+      console.error('Share error:', error)
+    }
   }
 
   return (
@@ -84,7 +110,7 @@ export default function MovieScreen() {
             <Ionicons name="add" size={20} color="#fff" />
             <Text style={styles.primaryButtonText}>Add to Watchlist</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.iconButton}>
+          <TouchableOpacity style={styles.iconButton} onPress={handleShare}>
             <Ionicons name="share-outline" size={24} color="#f97316" />
           </TouchableOpacity>
         </View>

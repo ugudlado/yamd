@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom'
-import { Star, Calendar, Clock, Plus, Check } from 'lucide-react'
+import { Star, Calendar, Clock, Plus, Check, Share2 } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { cn, formatRating, formatRuntime, getRoleLabel } from '@/lib/utils'
+import { ShareButton } from '@/components/share/ShareButton'
+import { cn, formatRating, formatRuntime } from '@/lib/utils'
 
 interface MovieCardProps {
   movie: {
@@ -47,6 +48,16 @@ export function MovieCard({ movie, inWatchlist, onAddToWatchlist, className }: M
             </div>
           )}
 
+          <div className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity">
+            <ShareButton
+              title={movie.title}
+              text={`Check out ${movie.title} (${movie.year}) on YAMD`}
+              url={`${window.location.origin}/movie/${movie.id}`}
+              variant="secondary"
+              size="icon"
+              className="h-8 w-8 bg-black/60 hover:bg-black/80 text-white border-0"
+            />
+          </div>
           <div className="absolute top-2 right-2 flex gap-1">
             <Badge variant="secondary" className="bg-black/60 text-white border-0">
               <Star className="h-3 w-3 mr-1 fill-yellow-400 text-yellow-400" />

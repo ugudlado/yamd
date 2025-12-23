@@ -12,7 +12,7 @@
   "dependencies": {
     "@expo/vector-icons": "^14.0.0",
     "@react-navigation/native": "^6.1.9",
-    "@tanstack/react-query": "^5.13.4",
+    "@tanstack/react-query": "^4.36.1",
     "@trpc/client": "^10.44.1",
     "@trpc/react-query": "^10.44.1",
     "@yamd/shared": "*",
@@ -27,7 +27,7 @@
     "react-native": "0.73.0",
     "react-native-safe-area-context": "4.8.2",
     "react-native-screens": "~3.29.0",
-    "superjson": "^3.0.0",
+    "superjson": "^2.2.1",
     "zustand": "^4.4.7"
   },
   "devDependencies": {

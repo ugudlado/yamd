@@ -1,9 +1,10 @@
 import { useParams, Link } from 'react-router-dom'
-import { Star, Calendar, Clock, Play, Plus, Check, Share2 } from 'lucide-react'
+import { Star, Calendar, Clock, Play, Plus, Share2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { ShareDialog } from '@/components/share/ShareDialog'
 import { formatRating, formatRuntime, getRoleLabel, getInitials } from '@/lib/utils'
 
 export function MoviePage() {
@@ -105,10 +106,17 @@ export function MoviePage() {
                 </a>
               </Button>
             )}
-            <Button size="lg" variant="ghost" className="gap-2">
-              <Share2 className="h-5 w-5" />
-              Share
-            </Button>
+            <ShareDialog
+              title={movie.title}
+              description={movie.plot}
+              imageUrl={movie.posterUrl || undefined}
+              trigger={
+                <Button size="lg" variant="ghost" className="gap-2">
+                  <Share2 className="h-5 w-5" />
+                  Share
+                </Button>
+              }
+            />
           </div>
         </div>
       </div>
